@@ -1,7 +1,0 @@
-services:
-  - type: web
-    name: message
-    env: docker
-    repo: https://github.com/Sivaraman-Ravichandran/Bharath-University.git
-    buildCommand: mvn clean package && docker build -t message .
-    startCommand: docker run -p 8080:8080 message
