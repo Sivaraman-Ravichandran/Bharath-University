@@ -16,10 +16,10 @@ RUN mvn package -DskipTests
 FROM openjdk:17-jdk-slim
 
 # Set the working directory in the container
-WORKDIR /message
+WORKDIR /app
 
 # Copy the build artifact from the first stage
-COPY --from=build /message/target/message-0.0.1-SNAPSHOT.jar /app/app.jar
+COPY --from=build /app/target/message-0.0.1-SNAPSHOT.jar /app/app.jar
 
 # Expose the port the application runs on
 EXPOSE 8080
