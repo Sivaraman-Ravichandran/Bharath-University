@@ -1,12 +1,17 @@
-# Stage 1: Build
-FROM maven:3.8.5-openjdk-17 AS build
-WORKDIR /app
-COPY pom.xml .
-COPY src ./src
-RUN mvn clean install -DskipTests
+# Use a base image that includes Java and necessary dependencies
+FROM openjdk:17-jdk-slim
 
-# Stage 2: Run
-FROM eclipse-temurin:17
+# Set the working directory
 WORKDIR /app
-COPY --from=build /app/target/*.jar ./app.jar
-ENTRYPOINT ["java", "-jar", "app.jar"]
+
+# Copy the build artifact from the target directory into the Docker image
+COPY target/message-0.0.1-SNAPSHOT.jar /app/app.jar
+
+# Optionally, copy the application properties file
+COPY src/main/resources/application.properties /app/src/main/resources/
+
+# Expose port 8080 to the outside world
+EXPOSE 8080
+
+# Command to run the application
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
